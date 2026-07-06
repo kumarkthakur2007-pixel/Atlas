@@ -248,6 +248,34 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
 .err-msg{ background:rgba(232,91,91,0.12); color:var(--danger); border:1px solid rgba(232,91,91,0.25); padding:10px 14px; border-radius:12px; font-size:13px; margin-bottom:16px; display:none; }
 
 /* ============================================================
+   LOCK SCREEN (PIN)
+   ============================================================ */
+#lockScreen{
+  position:fixed; inset:0; z-index:210; display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(143,214,92,0.25), transparent 55%),
+    radial-gradient(1000px 700px at 85% 85%, rgba(47,95,103,0.18), transparent 55%),
+    linear-gradient(160deg, #EAF6E3, #F8F9F7 45%, #E6F1EC);
+  overflow:hidden;
+}
+.lock-card{ width:min(360px, 90vw); padding:40px 34px; border-radius:30px; text-align:center; z-index:2; animation: cardIn .5s var(--ease); }
+.lock-greet{ font-size:13.5px; color:var(--text-2); font-weight:600; }
+.lock-title{ font-size:21px; font-weight:800; margin-top:4px; margin-bottom:26px; }
+.pin-dots{ display:flex; justify-content:center; gap:14px; margin-bottom:8px; }
+.pin-dot{ width:16px; height:16px; border-radius:50%; border:2px solid rgba(111,157,36,0.35); background:transparent; transition: all .18s var(--ease); }
+.pin-dot.filled{ background: linear-gradient(135deg,var(--natural-green),var(--accent)); border-color:transparent; transform:scale(1.05); }
+.pin-error{ height:18px; color:var(--danger); font-size:12.5px; font-weight:700; margin:8px 0 4px; opacity:0; transition:opacity .2s; }
+.pin-error.show{ opacity:1; }
+.lock-card.shake{ animation: shakeCard .4s ease; }
+@keyframes shakeCard{ 10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);} 30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);} }
+.pin-keypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+.pin-key{ aspect-ratio:1; border-radius:18px; background:rgba(255,255,255,0.4); border:1px solid var(--glass-border); font-size:20px; font-weight:700; color:var(--text-1); display:flex; align-items:center; justify-content:center; transition:all .18s var(--ease); }
+.pin-key:hover{ background:rgba(255,255,255,0.6); transform:translateY(-2px); }
+.pin-key:active{ transform:scale(.92); }
+.pin-key.ghost{ background:transparent; border:none; }
+.lock-links{ display:flex; justify-content:space-between; margin-top:26px; font-size:12.5px; }
+.lock-links a{ color:var(--natural-green); font-weight:700; }
+
    APP SHELL
    ============================================================ */
 #app{ display:flex; min-height:100vh; }
@@ -557,7 +585,7 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
 .hd.on{ background:var(--natural-green); color:#fff; }
 
 /* ---- Modal ---- */
-.modal-overlay{ position:fixed; inset:0; background:rgba(20,30,20,0.35); backdrop-filter:blur(6px); z-index:150; display:flex; align-items:center; justify-content:center; padding:20px; animation:fadeIn .25s ease; }
+.modal-overlay{ position:fixed; inset:0; background:rgba(20,30,20,0.35); backdrop-filter:blur(6px); z-index:230; display:flex; align-items:center; justify-content:center; padding:20px; animation:fadeIn .25s ease; }
 @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
 .modal-box{ width:min(520px,94vw); max-height:88vh; overflow-y:auto; border-radius:26px; padding:30px; animation:modalIn .35s var(--ease); background:var(--glass-fill-strong); }
 @keyframes modalIn{ from{ opacity:0; transform:translateY(20px) scale(.96);} to{opacity:1; transform:translateY(0) scale(1);} }
@@ -582,6 +610,19 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
 .journal-text{ font-size:14px; line-height:1.7; color:var(--text-2); }
 .tag-row{ display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
 .tag-chip{ font-size:11px; font-weight:700; padding:4px 10px; border-radius:100px; background:rgba(111,157,36,0.12); color:var(--natural-green); }
+
+/* ---- Profile page ---- */
+.profile-head{ display:flex; align-items:center; gap:22px; margin-bottom:28px; flex-wrap:wrap; }
+.profile-photo-wrap{ position:relative; width:92px; height:92px; flex-shrink:0; cursor:pointer; }
+.profile-photo{ width:92px; height:92px; border-radius:26px; object-fit:cover; }
+.profile-photo-fallback{ background:linear-gradient(135deg,var(--deep-teal),var(--natural-green)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:32px; box-shadow:0 12px 28px rgba(47,95,103,0.28); }
+.profile-photo-edit{ position:absolute; bottom:-4px; right:-4px; width:28px; height:28px; border-radius:10px; background:var(--natural-green); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(111,157,36,0.4); border:2px solid var(--frost-white); }
+.profile-name{ font-size:22px; font-weight:800; margin-bottom:8px; }
+.profile-meta-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.profile-meta-item{ display:flex; align-items:center; gap:5px; font-size:12.5px; color:var(--text-2); font-weight:600; }
+.profile-form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.profile-save-row{ display:flex; justify-content:flex-end; gap:10px; margin-top:6px; }
+input:disabled, textarea:disabled{ opacity:.7; cursor:default; background:rgba(255,255,255,0.2); }
 
 /* ---- Settings ---- */
 .setting-row{ display:flex; align-items:center; justify-content:space-between; padding:16px 0; border-bottom:1px solid rgba(111,157,36,0.08); }
@@ -620,6 +661,7 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
   .grid-4,.grid-3{ grid-template-columns:1fr; }
   .grid-6{ grid-template-columns:repeat(2,1fr); }
   .field-row{ grid-template-columns:1fr; }
+  .profile-form-grid{ grid-template-columns:1fr; }
   .hero-date{ position:static; margin-top:14px; text-align:left; }
   .welcome-card .hero-name{ font-size:34px; }
   .date-big{ font-size:44px; }
@@ -687,6 +729,23 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
   </div>
 </div>
 
+<!-- ============================================================ LOCK SCREEN (PIN) ============================================================ -->
+<div id="lockScreen" class="hidden">
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  <div class="lock-card glass">
+    <div class="logo-badge logo-badge-md glass" style="margin:0 auto 18px;"><img class="atlas-logo-img" alt="Atlas logo"></div>
+    <div class="lock-greet" id="lockGreet">Welcome back</div>
+    <div class="lock-title">Enter your PIN</div>
+    <div class="pin-dots" id="pinDots"></div>
+    <div class="pin-error" id="pinError">Incorrect PIN — try again</div>
+    <div class="pin-keypad" id="pinKeypad"></div>
+    <div class="lock-links">
+      <a href="#" onclick="forgotPin(); return false;">Forgot PIN?</a>
+      <a href="#" onclick="logoutFromLock(); return false;">Log out instead</a>
+    </div>
+  </div>
+</div>
+
 <!-- ============================================================ APP SHELL ============================================================ -->
 <div id="app" class="hidden">
   <aside id="sidebar" class="glass">
@@ -698,6 +757,7 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
     <nav class="sidebar-scroll">
     <div class="nav-group-label">Overview</div>
     <ul class="navlist">
+      <li><a class="navlink" data-page="profile" onclick="goPage('profile')"><i data-lucide="user-circle"></i>Profile</a></li>
       <li><a class="navlink active" data-page="dashboard" onclick="goPage('dashboard')"><i data-lucide="layout-grid"></i>Dashboard</a></li>
       <li><a class="navlink" data-page="analytics" onclick="goPage('analytics')"><i data-lucide="bar-chart-3"></i>Analytics</a></li>
     </ul>
@@ -756,6 +816,49 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
         <button class="btn-icon" onclick="goPage('settings')" title="Notifications"><i data-lucide="bell"></i></button>
       </div>
     </div>
+
+    <!-- ======================= PROFILE ======================= -->
+    <section class="page" id="page-profile">
+      <div class="page-head">
+        <div><div class="page-eyebrow">Overview</div><div class="page-title">Profile</div><div class="page-sub">Your account, at a glance.</div></div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-ghost" id="profileEditBtn" onclick="toggleProfileEdit()"><i data-lucide="pencil" style="width:15px;height:15px"></i> Edit profile</button>
+          <button class="btn btn-danger" onclick="logout()"><i data-lucide="log-out" style="width:15px;height:15px"></i> Logout</button>
+        </div>
+      </div>
+
+      <div class="card glass" style="padding:34px;">
+        <div class="profile-head">
+          <div class="profile-photo-wrap" onclick="document.getElementById('profilePhotoInput').click()">
+            <img id="profilePhotoImg" class="profile-photo" alt="Profile photo" style="display:none;">
+            <div id="profilePhotoFallback" class="profile-photo profile-photo-fallback">A</div>
+            <div class="profile-photo-edit"><i data-lucide="camera" style="width:14px;height:14px"></i></div>
+          </div>
+          <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handleProfilePhoto(event)">
+          <div style="flex:1; min-width:0;">
+            <div class="profile-name" id="profileNameDisplay">Alex</div>
+            <div class="profile-meta-row">
+              <span class="pill pill-low" id="profileAccountType">Member</span>
+              <span class="profile-meta-item"><i data-lucide="at-sign" style="width:13px;height:13px"></i><span id="profileUsernameDisplay">alex</span></span>
+              <span class="profile-meta-item"><i data-lucide="calendar" style="width:13px;height:13px"></i>Joined <span id="profileJoinDate">—</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <div class="field"><label>Full name</label><input type="text" id="profileNameInput" disabled></div>
+          <div class="field"><label>Username</label><input type="text" id="profileUsernameInput" disabled></div>
+          <div class="field"><label>Email</label><input type="email" id="profileEmailInput" disabled></div>
+          <div class="field"><label>Mobile number</label><input type="text" id="profileMobileInput" disabled placeholder="+91 00000 00000"></div>
+        </div>
+        <div class="field"><label>Bio</label><textarea id="profileBioInput" disabled rows="3" placeholder="A short line about yourself…"></textarea></div>
+
+        <div class="profile-save-row" id="profileSaveRow" style="display:none;">
+          <button class="btn btn-ghost" onclick="cancelProfileEdit()">Cancel</button>
+          <button class="btn btn-primary" onclick="saveProfileFull()">Save changes</button>
+        </div>
+      </div>
+    </section>
 
     <!-- ======================= DASHBOARD ======================= -->
     <section class="page active" id="page-dashboard">
@@ -1111,11 +1214,29 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
       </div>
       <div class="grid grid-2">
         <div class="card glass">
-          <h4 style="font-size:15px;margin-bottom:6px;">Profile</h4>
-          <div class="field" style="margin-top:14px;"><label>Display name</label><input type="text" id="profileName" onchange="saveProfile()"></div>
-          <div class="field"><label>Email</label><input type="email" id="profileEmail" onchange="saveProfile()"></div>
-
-          <h4 style="font-size:15px;margin:20px 0 6px;">Appearance</h4>
+          <h4 style="font-size:15px;margin-bottom:6px;">Security</h4>
+          <div class="setting-row">
+            <div><div class="setting-title">App PIN lock</div><div class="setting-sub">Require a PIN to open Atlas</div></div>
+            <div class="switch" id="pinEnableSwitch" onclick="togglePinLock()"></div>
+          </div>
+          <div id="pinManageRows">
+            <div class="setting-row"><div><div class="setting-title">Change PIN</div><div class="setting-sub">Update your unlock code</div></div><button class="btn btn-ghost btn-sm" onclick="openChangePinModal()">Change</button></div>
+            <div class="setting-row"><div><div class="setting-title">Lock on startup</div><div class="setting-sub">Always ask for PIN when Atlas opens</div></div><div class="switch" id="lockOnStartupSwitch" onclick="toggleLockOnStartup()"></div></div>
+            <div class="setting-row"><div><div class="setting-title">Auto-lock after</div><div class="setting-sub">Lock automatically when inactive</div></div>
+              <select id="autoLockSel" style="max-width:130px" onchange="setAutoLockMinutes(this.value)">
+                <option value="1">1 minute</option><option value="2">2 minutes</option><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="30">30 minutes</option>
+              </select>
+            </div>
+            <div class="setting-row"><div><div class="setting-title">Session timeout</div><div class="setting-sub">Sign out if locked &amp; idle this long</div></div>
+              <select id="sessionTimeoutSel" style="max-width:130px" onchange="setSessionTimeoutMinutes(this.value)">
+                <option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option><option value="120">2 hours</option>
+              </select>
+            </div>
+          </div>
+          <div class="setting-row"><div><div class="setting-title">Your profile</div><div class="setting-sub">Photo, name, bio and contact info</div></div><button class="btn btn-ghost btn-sm" onclick="goPage('profile')">Open</button></div>
+        </div>
+        <div class="card glass">
+          <h4 style="font-size:15px;margin-bottom:6px;">Appearance</h4>
           <div class="setting-row"><div><div class="setting-title">Dark mode</div><div class="setting-sub">Easier on the eyes at night</div></div><div class="switch" id="darkSwitch" onclick="toggleTheme()"></div></div>
           <div class="setting-row"><div><div class="setting-title">Animations</div><div class="setting-sub">Motion & transitions</div></div><div class="switch on" id="animSwitch" onclick="toggleAnim()"></div></div>
           <div class="setting-row"><div><div class="setting-title">Accent color</div><div class="setting-sub">Pick your signature tone</div></div>
@@ -1129,8 +1250,9 @@ label{ font-size:13px; font-weight:600; color:var(--text-2); display:block; marg
           <h4 style="font-size:15px;margin-bottom:6px;">Notifications</h4>
           <div class="setting-row"><div><div class="setting-title">Task reminders</div><div class="setting-sub">Get nudged before due time</div></div><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
           <div class="setting-row"><div><div class="setting-title">Habit check-in</div><div class="setting-sub">Evening reminder to log habits</div></div><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
-
-          <h4 style="font-size:15px;margin:20px 0 6px;">Data</h4>
+        </div>
+        <div class="card glass">
+          <h4 style="font-size:15px;margin-bottom:6px;">Data</h4>
           <div class="setting-row"><div><div class="setting-title">Backup / Export</div><div class="setting-sub">Save all your data as JSON</div></div><button class="btn btn-ghost btn-sm" onclick="exportJSON()">Export</button></div>
           <div class="setting-row"><div><div class="setting-title">Restore / Import</div><div class="setting-sub">Load a previous backup</div></div><label class="btn btn-ghost btn-sm" style="cursor:pointer;">Import<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label></div>
           <div class="setting-row"><div><div class="setting-title">Reset all data</div><div class="setting-sub">This cannot be undone</div></div><button class="btn btn-danger btn-sm" onclick="resetAllData()">Reset</button></div>
@@ -1412,7 +1534,8 @@ function defaultDB(){
 }
 function newUserData(name,email){
   return {
-    profile:{name:name||'New User', email:email||''},
+    profile:{name:name||'New User', email:email||'', mobile:'', bio:'', photo:'', joinDate:new Date().toISOString()},
+    security:{ pinHash:null, pinEnabled:false, autoLockMinutes:5, sessionTimeoutMinutes:30, lockOnStartup:false },
     tasks:[], events:[], goals:[], subjects:[
       {id:uid(), name:'Physics', hours:0}, {id:uid(), name:'Chemistry', hours:0}, {id:uid(), name:'English', hours:0}
     ],
@@ -1433,6 +1556,13 @@ function userData(){
   if(!DB.perUser[DB.session]) DB.perUser[DB.session] = newUserData();
   const ud = DB.perUser[DB.session];
   if(!ud.uiState) ud.uiState = { page:'dashboard', taskFilter:'all', goalFilter:'daily', taskSearch:'', journalSearch:'', expSearch:'' };
+  if(!ud.security) ud.security = { pinHash:null, pinEnabled:false, autoLockMinutes:5, sessionTimeoutMinutes:30, lockOnStartup:false };
+  if(ud.profile){
+    if(ud.profile.mobile===undefined) ud.profile.mobile='';
+    if(ud.profile.bio===undefined) ud.profile.bio='';
+    if(ud.profile.photo===undefined) ud.profile.photo='';
+    if(!ud.profile.joinDate) ud.profile.joinDate=new Date().toISOString();
+  }
   return ud;
 }
 function logActivity(text){
@@ -1506,6 +1636,8 @@ function handleAuth(e){
   enterApp();
 }
 function logout(){
+  clearTimeout(inactivityTimer); clearTimeout(sessionTimeoutTimer);
+  const lockEl=document.getElementById('lockScreen'); if(lockEl) lockEl.classList.add('hidden');
   DB.session=null; persist();
   document.getElementById('app').classList.add('hidden');
   document.getElementById('loginScreen').classList.remove('hidden');
@@ -1520,8 +1652,8 @@ function enterApp(){
   document.getElementById('userRoleChip').textContent = u.role==='admin'?'Administrator':'Member';
   document.getElementById('userAvatar').textContent = (u.name||'A').slice(0,1).toUpperCase();
   document.getElementById('adminNav').style.display = u.role==='admin' ? 'block' : 'none';
-  document.getElementById('profileName').value = ud.profile.name||'';
-  document.getElementById('profileEmail').value = ud.profile.email||'';
+  renderProfile();
+  renderSecuritySettings();
   applySettings();
   initAllModules();
 
@@ -1538,6 +1670,10 @@ function enterApp(){
   // Restore last page + establish the History API base state for back-button handling
   const restoredPage = ud.uiState.page || 'dashboard';
   goPage(restoredPage, {replace:true});
+
+  // Security: lock on startup + start the inactivity/auto-lock clock
+  if(ud.security.pinEnabled && ud.security.lockOnStartup){ showLockScreen(); }
+  resetInactivityTimer();
 
   safeCreateIcons();
 }
@@ -1571,16 +1707,244 @@ function renderAccentSwatches(){
     wrap.appendChild(s);
   });
 }
-function saveProfile(){
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+function renderProfile(){
+  const ud=userData(); if(!ud) return;
+  const u=DB.users.find(x=>x.username===DB.session);
+  document.getElementById('profileNameDisplay').textContent = ud.profile.name || u.name;
+  document.getElementById('profileUsernameDisplay').textContent = u.username;
+  document.getElementById('profileAccountType').textContent = u.role==='admin' ? 'Administrator' : 'Member';
+  document.getElementById('profileAccountType').className = 'pill '+(u.role==='admin'?'pill-high':'pill-low');
+  document.getElementById('profileJoinDate').textContent = new Date(ud.profile.joinDate).toLocaleDateString(undefined,{month:'long', year:'numeric'});
+  document.getElementById('profileNameInput').value = ud.profile.name || '';
+  document.getElementById('profileUsernameInput').value = u.username;
+  document.getElementById('profileEmailInput').value = ud.profile.email || '';
+  document.getElementById('profileMobileInput').value = ud.profile.mobile || '';
+  document.getElementById('profileBioInput').value = ud.profile.bio || '';
+  const img=document.getElementById('profilePhotoImg'), fallback=document.getElementById('profilePhotoFallback');
+  if(ud.profile.photo){ img.src=ud.profile.photo; img.style.display='block'; fallback.style.display='none'; }
+  else { img.style.display='none'; fallback.style.display='flex'; fallback.textContent=(ud.profile.name||u.name||'A').slice(0,1).toUpperCase(); }
+}
+function toggleProfileEdit(){
+  const editing = document.getElementById('profileSaveRow').style.display!=='none';
+  if(editing){ cancelProfileEdit(); return; }
+  ['profileNameInput','profileEmailInput','profileMobileInput','profileBioInput'].forEach(id=>document.getElementById(id).disabled=false);
+  document.getElementById('profileSaveRow').style.display='flex';
+  document.getElementById('profileEditBtn').innerHTML='<i data-lucide="x" style="width:15px;height:15px"></i> Cancel';
+  safeCreateIcons();
+}
+function cancelProfileEdit(){
+  renderProfile();
+  ['profileNameInput','profileEmailInput','profileMobileInput','profileBioInput'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('profileSaveRow').style.display='none';
+  document.getElementById('profileEditBtn').innerHTML='<i data-lucide="pencil" style="width:15px;height:15px"></i> Edit profile';
+  safeCreateIcons();
+}
+function saveProfileFull(){
   const ud=userData();
-  ud.profile.name=document.getElementById('profileName').value;
-  ud.profile.email=document.getElementById('profileEmail').value;
+  ud.profile.name = document.getElementById('profileNameInput').value.trim() || ud.profile.name;
+  ud.profile.email = document.getElementById('profileEmailInput').value.trim();
+  ud.profile.mobile = document.getElementById('profileMobileInput').value.trim();
+  ud.profile.bio = document.getElementById('profileBioInput').value.trim();
   persist();
   const u=DB.users.find(x=>x.username===DB.session); u.name=ud.profile.name;
   document.getElementById('userNameChip').textContent=u.name;
   document.getElementById('userAvatar').textContent=(u.name||'A').slice(0,1).toUpperCase();
+  cancelProfileEdit();
   showToast('success','Profile updated.');
 }
+function handleProfilePhoto(e){
+  const file=e.target.files[0]; if(!file) return;
+  if(!file.type.startsWith('image/')){ showToast('error','Please choose an image file.'); return; }
+  if(file.size > 3*1024*1024){ showToast('error','Please choose an image under 3MB.'); return; }
+  const reader=new FileReader();
+  reader.onload=()=>{ const ud=userData(); ud.profile.photo=reader.result; persist(); renderProfile(); showToast('success','Photo updated.'); };
+  reader.readAsDataURL(file);
+}
+
+/* ============================================================
+   SECURITY: PIN LOCK
+   ============================================================ */
+async function sha256Hex(str){
+  const enc = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+const PIN_LENGTH = 4;
+let pinBuffer = '';
+let inactivityTimer = null, sessionTimeoutTimer = null;
+
+function renderSecuritySettings(){
+  const ud=userData(); if(!ud) return;
+  document.getElementById('pinEnableSwitch').classList.toggle('on', ud.security.pinEnabled);
+  document.getElementById('pinManageRows').style.opacity = ud.security.pinEnabled ? '1' : '.45';
+  document.getElementById('pinManageRows').style.pointerEvents = ud.security.pinEnabled ? 'auto' : 'none';
+  document.getElementById('lockOnStartupSwitch').classList.toggle('on', ud.security.lockOnStartup);
+  document.getElementById('autoLockSel').value = String(ud.security.autoLockMinutes);
+  document.getElementById('sessionTimeoutSel').value = String(ud.security.sessionTimeoutMinutes);
+}
+function togglePinLock(){
+  const ud=userData();
+  if(!ud.security.pinEnabled) openSetPinModal(false);
+  else openDisablePinModal();
+}
+function openSetPinModal(isChange){
+  openModal(isChange?'Change PIN':'Set up a PIN', `
+    ${isChange? '<div class="field"><label>Current PIN</label><input type="password" id="curPin" maxlength="4" inputmode="numeric" placeholder="••••"></div>' : ''}
+    <div class="field"><label>New PIN (4 digits)</label><input type="password" id="newPin1" maxlength="4" inputmode="numeric" placeholder="••••"></div>
+    <div class="field"><label>Confirm new PIN</label><input type="password" id="newPin2" maxlength="4" inputmode="numeric" placeholder="••••"></div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitPinSetup(${!!isChange})">Save PIN</button>`);
+}
+async function submitPinSetup(isChange){
+  const ud=userData();
+  if(isChange){
+    const cur=document.getElementById('curPin').value;
+    const curHash=await sha256Hex(cur);
+    if(curHash!==ud.security.pinHash){ showToast('error','Current PIN is incorrect.'); return; }
+  }
+  const p1=document.getElementById('newPin1').value, p2=document.getElementById('newPin2').value;
+  if(!/^\d{4}$/.test(p1)){ showToast('error','PIN must be exactly 4 digits.'); return; }
+  if(p1!==p2){ showToast('error',"PINs don't match."); return; }
+  ud.security.pinHash = await sha256Hex(p1);
+  ud.security.pinEnabled = true;
+  persist();
+  closeModal();
+  renderSecuritySettings();
+  resetInactivityTimer();
+  showToast('success', isChange?'PIN changed.':'PIN lock enabled.');
+}
+function openChangePinModal(){
+  const ud=userData();
+  if(!ud.security.pinEnabled){ showToast('info','Enable PIN lock first.'); return; }
+  openSetPinModal(true);
+}
+function openDisablePinModal(){
+  openModal('Disable PIN lock', '<div class="field"><label>Enter current PIN to confirm</label><input type="password" id="disablePinInput" maxlength="4" inputmode="numeric" placeholder="••••"></div>',
+    '<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="submitDisablePin()">Disable</button>');
+}
+async function submitDisablePin(){
+  const ud=userData();
+  const val=document.getElementById('disablePinInput').value;
+  const hash=await sha256Hex(val);
+  if(hash!==ud.security.pinHash){ showToast('error','Incorrect PIN.'); return; }
+  ud.security.pinEnabled=false; ud.security.lockOnStartup=false;
+  persist(); closeModal(); renderSecuritySettings(); resetInactivityTimer();
+  showToast('success','PIN lock disabled.');
+}
+function toggleLockOnStartup(){
+  const ud=userData();
+  if(!ud.security.pinEnabled){ showToast('info','Enable PIN lock first.'); return; }
+  ud.security.lockOnStartup = !ud.security.lockOnStartup;
+  persist(); renderSecuritySettings();
+}
+function setAutoLockMinutes(v){ const ud=userData(); ud.security.autoLockMinutes=Number(v); persist(); resetInactivityTimer(); }
+function setSessionTimeoutMinutes(v){ const ud=userData(); ud.security.sessionTimeoutMinutes=Number(v); persist(); }
+
+function renderPinDots(){
+  const wrap=document.getElementById('pinDots'); if(!wrap) return;
+  wrap.innerHTML='';
+  for(let i=0;i<PIN_LENGTH;i++){
+    const d=document.createElement('div'); d.className='pin-dot'+(i<pinBuffer.length?' filled':'');
+    wrap.appendChild(d);
+  }
+}
+function buildPinKeypad(){
+  const wrap=document.getElementById('pinKeypad'); if(!wrap) return;
+  wrap.innerHTML='';
+  const keys=['1','2','3','4','5','6','7','8','9','','0','back'];
+  keys.forEach(k=>{
+    const btn=document.createElement('button');
+    if(k===''){ btn.className='pin-key ghost'; }
+    else if(k==='back'){ btn.className='pin-key'; btn.innerHTML='<i data-lucide="delete" style="width:18px;height:18px"></i>'; btn.onclick=()=>pinKeyPress('back'); }
+    else { btn.className='pin-key'; btn.textContent=k; btn.onclick=()=>pinKeyPress(k); }
+    wrap.appendChild(btn);
+  });
+  safeCreateIcons();
+}
+function pinKeyPress(val){
+  if(val==='back'){ pinBuffer = pinBuffer.slice(0,-1); }
+  else if(pinBuffer.length < PIN_LENGTH){ pinBuffer += val; }
+  renderPinDots();
+  if(pinBuffer.length === PIN_LENGTH) verifyPin();
+}
+async function verifyPin(){
+  const ud=userData();
+  const hash = await sha256Hex(pinBuffer);
+  if(hash === ud.security.pinHash){ pinBuffer=''; unlockApp(); }
+  else {
+    showPinError();
+    pinBuffer='';
+    setTimeout(renderPinDots, 350);
+  }
+}
+function showPinError(){
+  const card=document.querySelector('#lockScreen .lock-card');
+  const err=document.getElementById('pinError');
+  err.classList.add('show');
+  card.classList.add('shake');
+  renderPinDots();
+  setTimeout(()=>{ card.classList.remove('shake'); }, 400);
+  setTimeout(()=>{ err.classList.remove('show'); }, 1800);
+}
+function showLockScreen(){
+  const ud=userData(); if(!ud) return;
+  document.getElementById('lockGreet').textContent = 'Welcome back, '+(ud.profile.name||'').split(' ')[0];
+  pinBuffer='';
+  renderPinDots();
+  buildPinKeypad();
+  document.getElementById('lockScreen').classList.remove('hidden');
+  safeCreateIcons();
+}
+function unlockApp(){
+  document.getElementById('lockScreen').classList.add('hidden');
+  resetInactivityTimer();
+}
+function logoutFromLock(){
+  document.getElementById('lockScreen').classList.add('hidden');
+  logout();
+}
+function forgotPin(){
+  openModal('Forgot PIN', '<p style="font-size:13.5px;color:var(--text-2);margin-bottom:16px;">Enter your login password to reset your PIN.</p><div class="field"><label>Login password</label><input type="password" id="forgotPassInput" placeholder="••••••••"></div>',
+    '<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitForgotPin()">Verify</button>');
+}
+function submitForgotPin(){
+  const u=DB.users.find(x=>x.username===DB.session);
+  const val=document.getElementById('forgotPassInput').value;
+  if(u.password!=='' && u.password!==val){ showToast('error','Incorrect password.'); return; }
+  closeModal();
+  document.getElementById('lockScreen').classList.add('hidden');
+  openSetPinModal(false);
+}
+function resetInactivityTimer(){
+  clearTimeout(inactivityTimer); clearTimeout(sessionTimeoutTimer);
+  const ud=userData();
+  if(!ud || !ud.security.pinEnabled) return;
+  inactivityTimer=setTimeout(()=>{
+    if(document.getElementById('lockScreen').classList.contains('hidden')){
+      showLockScreen();
+      startSessionTimeoutTimer();
+    }
+  }, ud.security.autoLockMinutes*60*1000);
+}
+function startSessionTimeoutTimer(){
+  const ud=userData(); if(!ud) return;
+  clearTimeout(sessionTimeoutTimer);
+  sessionTimeoutTimer=setTimeout(()=>{
+    document.getElementById('lockScreen').classList.add('hidden');
+    showToast('info','Session expired — please sign in again.');
+    logout();
+  }, ud.security.sessionTimeoutMinutes*60*1000);
+}
+['mousemove','keydown','click','touchstart','scroll'].forEach(evt=>{
+  document.addEventListener(evt, ()=>{
+    if(document.getElementById('lockScreen') && document.getElementById('lockScreen').classList.contains('hidden')){
+      resetInactivityTimer();
+    }
+  }, {passive:true});
+});
+
 function exportJSON(){
   const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='aura-backup.json'; a.click();
@@ -1612,6 +1976,7 @@ function goPage(name, opts){
   document.getElementById('sidebar').classList.remove('open');
   if(name==='analytics') renderAnalytics();
   if(name==='admin') renderAdmin();
+  if(name==='profile') renderProfile();
   window.scrollTo({top:0,behavior:'smooth'});
 
   const ud = userData();
